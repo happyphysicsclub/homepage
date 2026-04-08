@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { APP_INFO } from '@/config'
 import { Layout } from '@/components'
-import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 import '@/styles/globals.css'
 
@@ -24,7 +24,6 @@ export default function RootLayout({
       <body className='antialiased'>
         <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Layout>{children}</Layout>
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
       </body>
     </html>

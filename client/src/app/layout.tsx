@@ -80,9 +80,7 @@ export const metadata: Metadata = {
     description: APP_INFO.description,
     images: ['/icons/op-image.png'],
   },
-  verification: {
-    google: APP_INFO.google_site_verification,
-  },
+  verification: {},
   referrer: 'origin-when-cross-origin',
   robots: {
     index: true,

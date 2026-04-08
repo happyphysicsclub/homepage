@@ -3,7 +3,7 @@
 import { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Html, OrbitControls, Preload, useProgress } from '@react-three/drei'
-import { Spinner } from '@/components/dom/Spinner'
+import { Spinner } from '@/components/Spinner'
 import React from 'react'
 
 export const Common = ({ color }: { color?: string }) => (

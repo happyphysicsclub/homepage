@@ -1,4 +1,4 @@
-import { HoverText, Timer } from '@/components'
+import { HoverText } from '@/components'
 import { P5Canvas } from '@/components/p5'
 
 export default function Page() {
@@ -20,11 +20,7 @@ export default function Page() {
         </a>
       </footer>
 
-      <div className='z-10 absolute p-2 flex gap-2 right-0 bottom-0'>
-        <Timer />
-      </div>
-
-      <P5Canvas />
+      <P5Canvas className='w-full h-full' />
     </>
   )
 }

@@ -97,7 +97,7 @@ const getTangentOnCurve = (slide: Slide, t: number) => {
   return { x: dx / len, y: dy / len }
 }
 
-export function P5Canvas() {
+export function P5Canvas({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const p5Instance = useRef<p5 | null>(null)
 
@@ -106,6 +106,8 @@ export function P5Canvas() {
 
     import('p5').then((p5Module) => {
       const P5 = p5Module.default
+
+      if (!containerRef.current) return
 
       const sketch = (p: p5) => {
         let balls: Ball[] = []
@@ -341,9 +343,9 @@ export function P5Canvas() {
         }
       }
 
-      if (containerRef.current) {
-        p5Instance.current = new P5(sketch, containerRef.current)
-      }
+      p5Instance.current = new P5(sketch, containerRef.current)
+    }).catch((err) => {
+      console.error('[P5Canvas] p5 load failed:', err)
     })
 
     return () => {
@@ -351,5 +353,5 @@ export function P5Canvas() {
     }
   }, [])
 
-  return <div ref={containerRef} className='fixed z-0 top-0 w-full h-full' style={{ cursor: 'crosshair' }} />
+  return <div ref={containerRef} className={className} style={{ cursor: 'crosshair' }} />
 }

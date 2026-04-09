@@ -2,7 +2,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { COLORS } from '@/constants'
 
 interface Props {
   size?: number
@@ -10,16 +9,33 @@ interface Props {
   label?: string
 }
 
-export function LoadingSpinner({ size = 300, className, label }: Props) {
+export function LoadingSpinner({ size = 300, className, label = '페이지를 그리고 있어요...' }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [dots, setDots] = useState('.')
-
+  const [displayed, setDisplayed] = useState('')
   useEffect(() => {
     if (!label) return
-    const id = setInterval(() => {
-      setDots(d => (d.length >= 3 ? '.' : d + '.'))
-    }, 400)
-    return () => clearInterval(id)
+    let i = 0
+    let intervalId: ReturnType<typeof setInterval>
+    let timeoutId: ReturnType<typeof setTimeout>
+
+    const startTyping = () => {
+      i = 0
+      setDisplayed('\u00A0')
+      intervalId = setInterval(() => {
+        i++
+        setDisplayed(label.slice(0, i))
+        if (i >= label.length) {
+          clearInterval(intervalId)
+          timeoutId = setTimeout(startTyping, 1000)
+        }
+      }, 100)
+    }
+
+    startTyping()
+    return () => {
+      clearInterval(intervalId)
+      clearTimeout(timeoutId)
+    }
   }, [label])
 
   useEffect(() => {
@@ -30,7 +46,7 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
       H = size
     const PAD = 40 * (size / 500)
     const BALL_D = 100 * (size / 500)
-    const SW = 10 * (size / 500)
+    const SW = 5 * (size / 500)
     const SPEED = 2
     const LINE_GAP = 65 * (size / 500)
     const ARC_H = 80 * (size / 500)
@@ -83,8 +99,6 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
     }
 
     const path = buildPath()
-    const shuffle = [...COLORS].sort(() => Math.random() - 0.5)
-    const [trailColor, ballStroke] = shuffle
     let t = 0
     let animId: number
     let lastTime = 0
@@ -101,6 +115,7 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
       if (t >= path.length - 1) t = 0
 
       const idx = Math.min(Math.floor(t), path.length - 1)
+
       const pos = path[idx]
 
       // trail
@@ -112,7 +127,7 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
         }
       }
 
-      ctx.strokeStyle = trailColor
+      ctx.strokeStyle = '#000000'
       ctx.lineWidth = SW
       ctx.lineCap = 'round'
       ctx.lineJoin = 'round'
@@ -126,8 +141,10 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
       // ball
       ctx.beginPath()
       ctx.arc(pos.x, pos.y, BALL_D / 2, 0, Math.PI * 2)
+      ctx.fillStyle = '#ffffff'
+      ctx.fill()
       ctx.lineWidth = SW
-      ctx.strokeStyle = ballStroke
+      ctx.strokeStyle = '#000000'
       ctx.stroke()
 
       animId = requestAnimationFrame(draw)
@@ -141,11 +158,7 @@ export function LoadingSpinner({ size = 300, className, label }: Props) {
   return (
     <div className='flex flex-col items-center gap-4'>
       <canvas ref={canvasRef} className={className} />
-      {label && (
-        <p className='text-sm tracking-widest'>
-          {label}<span>{dots}</span>
-        </p>
-      )}
+      {label && <p className='text-sm font-medium tracking-wider text-black'>{displayed}</p>}
     </div>
   )
 }

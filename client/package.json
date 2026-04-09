@@ -59,7 +59,7 @@
     "lint": "yarn prettier && yarn eslint",
     "eslint": "next lint --fix --dir src",
     "prettier": "prettier --list-different \"./src/**/*.{ts,tsx,md}\"",
-    "dev": "next dev --webpack",
+    "dev": "next dev --turbopack",
     "build": "next build --webpack",
     "analyze": "ANALYZE=true next build",
     "start": "next start"

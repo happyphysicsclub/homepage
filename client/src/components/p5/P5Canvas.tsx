@@ -104,254 +104,285 @@ export function P5Canvas({ className }: { className?: string }) {
   useEffect(() => {
     if (!containerRef.current) return
 
-    import('p5').then((p5Module) => {
-      const P5 = p5Module.default
+    import('p5')
+      .then((p5Module) => {
+        const P5 = p5Module.default
 
-      if (!containerRef.current) return
+        if (!containerRef.current) return
 
-      const sketch = (p: p5) => {
-        let balls: Ball[] = []
-        let slides: Slide[] = []
-        let spawnTimer = 0
+        const sketch = (p: p5) => {
+          let balls: Ball[] = []
+          let slides: Slide[] = []
+          let spawnTimer = 0
 
-        const spawnBall = () => {
-          const curveSlide = slides.find((s) => s.type === 'curve')
-          if (curveSlide && balls.length < 60) {
+          const getMaxBalls = () => {
+            const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory
+            if (mem !== undefined) {
+              if (mem <= 2) return 20
+              if (mem <= 4) return 35
+              return 60
+            }
+            // fallback: 화면 크기 기준
+            const w = window.innerWidth
+            if (w < 768) return 20
+            if (w < 1024) return 35
+            return 60
+          }
+
+          const spawnBall = () => {
+            const curveSlide = slides.find((s) => s.type === 'curve')
+            if (!curveSlide) return
+            const maxBalls = getMaxBalls()
+            if (balls.length >= maxBalls) balls.shift() // 가장 오래된 공 제거
             balls.push(createBall(curveSlide.startX! + (Math.random() - 0.5) * 30, curveSlide.startY! - 20, true))
           }
-        }
 
-        const handleBallCollisions = (ballsArray: Ball[]) => {
-          for (let i = 0; i < ballsArray.length; i++) {
-            for (let j = i + 1; j < ballsArray.length; j++) {
-              const b1 = ballsArray[i]
-              const b2 = ballsArray[j]
-              if (b1.onSlide || b2.onSlide) continue
+          const handleBallCollisions = (ballsArray: Ball[]) => {
+            for (let i = 0; i < ballsArray.length; i++) {
+              for (let j = i + 1; j < ballsArray.length; j++) {
+                const b1 = ballsArray[i]
+                const b2 = ballsArray[j]
+                if (b1.onSlide || b2.onSlide) continue
 
-              const dx = b2.x - b1.x
-              const dy = b2.y - b1.y
-              const dist = Math.sqrt(dx * dx + dy * dy)
-              const minDist = b1.radius + b2.radius
+                const dx = b2.x - b1.x
+                const dy = b2.y - b1.y
+                const dist = Math.sqrt(dx * dx + dy * dy)
+                const minDist = b1.radius + b2.radius
 
-              if (dist >= minDist || dist <= 0.1) continue
+                if (dist >= minDist || dist <= 0.1) continue
 
-              const nx = dx / dist
-              const ny = dy / dist
-              const overlap = minDist - dist
-              const sep = overlap * 0.2
+                const nx = dx / dist
+                const ny = dy / dist
+                const overlap = minDist - dist
+                const sep = overlap * 0.2
 
-              b1.x -= nx * sep
-              b1.y -= ny * sep
-              b2.x += nx * sep
-              b2.y += ny * sep
+                b1.x -= nx * sep
+                b1.y -= ny * sep
+                b2.x += nx * sep
+                b2.y += ny * sep
 
-              const dvn = (b2.vx - b1.vx) * nx + (b2.vy - b1.vy) * ny
-              if (dvn >= 0) continue
+                const dvn = (b2.vx - b1.vx) * nx + (b2.vy - b1.vy) * ny
+                if (dvn >= 0) continue
 
-              const impulse = (-(1 + 0.85) * dvn) / 2
-              b1.vx -= impulse * nx
-              b1.vy -= impulse * ny
-              b2.vx += impulse * nx
-              b2.vy += impulse * ny
+                const impulse = (-(1 + 0.85) * dvn) / 2
+                b1.vx -= impulse * nx
+                b1.vy -= impulse * ny
+                b2.vx += impulse * nx
+                b2.vy += impulse * ny
 
-              if (Math.abs(dvn) > 2 && Math.random() < 0.3) {
-                b1.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
-                b1.exclamationTimer = 40
+                if (Math.abs(dvn) > 2 && Math.random() < 0.3) {
+                  b1.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
+                  b1.exclamationTimer = 40
+                }
               }
             }
           }
-        }
 
-        const updateBall = (ball: Ball): Ball => {
-          const gravity = 0.7
-          const friction = 0.99
-          const bounce = 0.9
-          const curveSlide = slides.find((s) => s.type === 'curve')!
-          const b = { ...ball }
+          const updateBall = (ball: Ball): Ball => {
+            const gravity = 0.7
+            const friction = 0.99
+            const bounce = 0.9
+            const curveSlide = slides.find((s) => s.type === 'curve')!
+            const b = { ...ball }
 
-          if (b.onSlide && curveSlide) {
-            b.slideT += 0.015
-            if (b.slideT >= 1) {
-              b.onSlide = false
-              const tangent = getTangentOnCurve(curveSlide, 0.99)
-              b.vx = tangent.x * 9 * (Math.random() * 0.9 + 0.8)
-              b.vy = tangent.y * 9
+            if (b.onSlide && curveSlide) {
+              b.slideT += 0.015
+              if (b.slideT >= 1) {
+                b.onSlide = false
+                const tangent = getTangentOnCurve(curveSlide, 0.99)
+                b.vx = tangent.x * 9 * (Math.random() * 0.9 + 0.8)
+                b.vy = tangent.y * 9
+              } else {
+                const pos = getPointOnCurve(curveSlide, b.slideT)
+                b.x = pos.x
+                b.y = pos.y + curveSlide.thickness! / 2 - b.radius
+              }
             } else {
-              const pos = getPointOnCurve(curveSlide, b.slideT)
-              b.x = pos.x
-              b.y = pos.y + curveSlide.thickness! / 2 - b.radius
-            }
-          } else {
-            b.vy += gravity
-            b.vx *= friction
-            b.vy *= friction
-            b.x += b.vx
-            b.y += b.vy
+              b.vy += gravity
+              b.vx *= friction
+              b.vy *= friction
+              b.x += b.vx
+              b.y += b.vy
 
-            if (curveSlide && !b.onSlide) {
-              const dist = Math.sqrt(Math.pow(b.x - curveSlide.startX!, 2) + Math.pow(b.y - curveSlide.startY!, 2))
-              if (dist < 50 && b.slideT === 0) {
-                b.onSlide = true
-                b.slideT = 0
+              if (curveSlide && !b.onSlide) {
+                const dist = Math.sqrt(Math.pow(b.x - curveSlide.startX!, 2) + Math.pow(b.y - curveSlide.startY!, 2))
+                if (dist < 50 && b.slideT === 0) {
+                  b.onSlide = true
+                  b.slideT = 0
+                }
+              }
+
+              slides.forEach((slide) => {
+                if (slide.type === 'platform') {
+                  if (
+                    b.x > slide.x! &&
+                    b.x < slide.x! + slide.w! &&
+                    b.y + b.radius > slide.y! &&
+                    b.y + b.radius < slide.y! + 60 &&
+                    b.vy > 0
+                  ) {
+                    b.y = slide.y! - b.radius
+                    b.vy = -b.vy * bounce * 1.2
+                    if (!b.hasBouncedOnPlatform) {
+                      b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
+                      b.exclamationTimer = 50
+                      b.hasBouncedOnPlatform = true
+                    }
+                  }
+                }
+
+                if (slide.type === 'box') {
+                  if (b.x + b.radius > slide.x! && b.x - b.radius < slide.x! && b.y > slide.y!) {
+                    b.x = slide.x! - b.radius
+                    b.vx = -b.vx * bounce
+                  }
+                  if (b.x > slide.x! && b.x < slide.x! + slide.w! && b.y + b.radius > p.height - 10) {
+                    b.y = p.height - 10 - b.radius
+                    b.vy = -b.vy * bounce * Math.random() * 0.5 + 0.5
+                    if (Math.abs(b.vy) > 2) {
+                      b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
+                      b.exclamationTimer = 40
+                    }
+                  }
+                }
+
+                if (slide.type === 'wave') {
+                  const waveY = slide.y! + Math.sin(b.x * 0.02) * 15
+                  if (b.y + b.radius > waveY) {
+                    b.y = waveY - b.radius
+                    b.vy = -b.vy * bounce * 0.7
+                    if (Math.abs(b.vy) > 3) {
+                      b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
+                      b.exclamationTimer = 40
+                    }
+                  }
+                }
+              })
+
+              if (b.x - b.radius < 0) {
+                b.x = b.radius
+                b.vx = -b.vx * bounce
+              }
+              if (b.x + b.radius > p.width) {
+                b.x = p.width - b.radius
+                b.vx = -b.vx * bounce
+              }
+              if (b.y - b.radius < 0) {
+                b.y = b.radius
+                b.vy = -b.vy * bounce
               }
             }
 
+            if (b.exclamationTimer > 0) b.exclamationTimer--
+            return b
+          }
+
+          const drawSlides = () => {
             slides.forEach((slide) => {
-              if (slide.type === 'platform') {
-                if (
-                  b.x > slide.x! &&
-                  b.x < slide.x! + slide.w! &&
-                  b.y + b.radius > slide.y! &&
-                  b.y + b.radius < slide.y! + 60 &&
-                  b.vy > 0
-                ) {
-                  b.y = slide.y! - b.radius
-                  b.vy = -b.vy * bounce * 1.2
-                  if (!b.hasBouncedOnPlatform) {
-                    b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
-                    b.exclamationTimer = 50
-                    b.hasBouncedOnPlatform = true
-                  }
-                }
+              if (slide.type === 'curve') {
+                p.noFill()
+                p.stroke(slide.color)
+                p.strokeWeight(slide.thickness!)
+                p.strokeCap(p.ROUND)
+                const cx1 = slide.startX! + (2 / 3) * (slide.controlX! - slide.startX!)
+                const cy1 = slide.startY! + (2 / 3) * (slide.controlY! - slide.startY!)
+                const cx2 = slide.endX! + (2 / 3) * (slide.controlX! - slide.endX!)
+                const cy2 = slide.endY! + (2 / 3) * (slide.controlY! - slide.endY!)
+                p.bezier(slide.startX!, slide.startY!, cx1, cy1, cx2, cy2, slide.endX!, slide.endY!)
               }
 
-              if (slide.type === 'box') {
-                if (b.x + b.radius > slide.x! && b.x - b.radius < slide.x! && b.y > slide.y!) {
-                  b.x = slide.x! - b.radius
-                  b.vx = -b.vx * bounce
-                }
-                if (b.x > slide.x! && b.x < slide.x! + slide.w! && b.y + b.radius > p.height - 10) {
-                  b.y = p.height - 10 - b.radius
-                  b.vy = -b.vy * bounce * Math.random() * 0.5 + 0.5
-                  if (Math.abs(b.vy) > 2) {
-                    b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
-                    b.exclamationTimer = 40
-                  }
-                }
+              if (slide.type === 'box' || slide.type === 'platform') {
+                p.noStroke()
+                p.fill(slide.color)
+                p.rect(slide.x!, slide.y!, slide.w!, slide.h!)
               }
 
               if (slide.type === 'wave') {
-                const waveY = slide.y! + Math.sin(b.x * 0.02) * 15
-                if (b.y + b.radius > waveY) {
-                  b.y = waveY - b.radius
-                  b.vy = -b.vy * bounce * 0.7
-                  if (Math.abs(b.vy) > 3) {
-                    b.exclamation = EXCLAMATIONS[Math.floor(Math.random() * EXCLAMATIONS.length)]
-                    b.exclamationTimer = 40
-                  }
+                p.noStroke()
+                p.fill(slide.color)
+                p.beginShape()
+                p.vertex(0, slide.y!)
+                for (let x = 0; x <= p.width; x += 10) {
+                  p.vertex(x, slide.y! + Math.sin(x * 0.02) * 15)
                 }
+                p.vertex(p.width, p.height)
+                p.vertex(0, p.height)
+                p.endShape(p.CLOSE)
               }
             })
+          }
 
-            if (b.x - b.radius < 0) {
-              b.x = b.radius
-              b.vx = -b.vx * bounce
-            }
-            if (b.x + b.radius > p.width) {
-              b.x = p.width - b.radius
-              b.vx = -b.vx * bounce
-            }
-            if (b.y - b.radius < 0) {
-              b.y = b.radius
-              b.vy = -b.vy * bounce
+          const drawBall = (ball: Ball) => {
+            p.noStroke()
+            p.fill(ball.color)
+            p.circle(ball.x, ball.y, ball.radius * 2)
+
+            if (ball.exclamationTimer > 0 && ball.exclamation) {
+              p.textFont('monospace')
+              p.textStyle(p.BOLD)
+              p.textSize(14)
+              p.textAlign(p.CENTER, p.CENTER)
+              const offsetY = (40 - ball.exclamationTimer) * 0.5
+              const alpha = (ball.exclamationTimer / 40) * 255
+              p.fill(34, 34, 34, alpha)
+              p.text(ball.exclamation, ball.x, ball.y - ball.radius - 10 - offsetY)
             }
           }
 
-          if (b.exclamationTimer > 0) b.exclamationTimer--
-          return b
-        }
+          p.setup = () => {
+            const el = containerRef.current!
+            const canvas = p.createCanvas(el.clientWidth, el.clientHeight)
+            canvas.elt.style.touchAction = 'pan-y'
+            slides = createSlides(p.width, p.height)
+            for (let i = 0; i < 5; i++) setTimeout(() => spawnBall(), i * 200)
+          }
 
-        const drawSlides = () => {
-          slides.forEach((slide) => {
-            if (slide.type === 'curve') {
-              p.noFill()
-              p.stroke(slide.color)
-              p.strokeWeight(slide.thickness!)
-              p.strokeCap(p.ROUND)
-              const cx1 = slide.startX! + (2 / 3) * (slide.controlX! - slide.startX!)
-              const cy1 = slide.startY! + (2 / 3) * (slide.controlY! - slide.startY!)
-              const cx2 = slide.endX! + (2 / 3) * (slide.controlX! - slide.endX!)
-              const cy2 = slide.endY! + (2 / 3) * (slide.controlY! - slide.endY!)
-              p.bezier(slide.startX!, slide.startY!, cx1, cy1, cx2, cy2, slide.endX!, slide.endY!)
+          p.draw = () => {
+            p.background(252, 246, 246)
+            drawSlides()
+
+            balls = balls.map((ball) => updateBall(ball)).filter((ball) => ball.y <= p.height + 100)
+            for (let i = 0; i < 3; i++) handleBallCollisions(balls)
+            balls.forEach(drawBall)
+
+            if (++spawnTimer > 120) {
+              spawnBall()
+              spawnTimer = 0
             }
+          }
 
-            if (slide.type === 'box' || slide.type === 'platform') {
-              p.noStroke()
-              p.fill(slide.color)
-              p.rect(slide.x!, slide.y!, slide.w!, slide.h!)
-            }
+          const addBall = (x: number, y: number) => {
+            if (balls.length >= getMaxBalls()) balls.shift()
+            balls.push(createBall(x + (Math.random() - 0.5) * 30, y + (Math.random() - 0.5) * 30))
+          }
 
-            if (slide.type === 'wave') {
-              p.noStroke()
-              p.fill(slide.color)
-              p.beginShape()
-              p.vertex(0, slide.y!)
-              for (let x = 0; x <= p.width; x += 10) {
-                p.vertex(x, slide.y! + Math.sin(x * 0.02) * 15)
-              }
-              p.vertex(p.width, p.height)
-              p.vertex(0, p.height)
-              p.endShape(p.CLOSE)
-            }
-          })
-        }
+          p.mousePressed = () => addBall(p.mouseX, p.mouseY)
+          ;(p as any).touchStarted = () => addBall((p as any).touchX, (p as any).touchY)
 
-        const drawBall = (ball: Ball) => {
-          p.noStroke()
-          p.fill(ball.color)
-          p.circle(ball.x, ball.y, ball.radius * 2)
-
-          if (ball.exclamationTimer > 0 && ball.exclamation) {
-            p.textFont('monospace')
-            p.textStyle(p.BOLD)
-            p.textSize(14)
-            p.textAlign(p.CENTER, p.CENTER)
-            const offsetY = (40 - ball.exclamationTimer) * 0.5
-            const alpha = (ball.exclamationTimer / 40) * 255
-            p.fill(34, 34, 34, alpha)
-            p.text(ball.exclamation, ball.x, ball.y - ball.radius - 10 - offsetY)
+          p.windowResized = () => {
+            const el = containerRef.current
+            if (!el) return
+            p.resizeCanvas(el.clientWidth, el.clientHeight)
+            slides = createSlides(p.width, p.height)
           }
         }
 
-        p.setup = () => {
-          p.createCanvas(p.windowWidth, p.windowHeight)
-          slides = createSlides(p.width, p.height)
-          for (let i = 0; i < 5; i++) setTimeout(() => spawnBall(), i * 200)
+        p5Instance.current = new P5(sketch, containerRef.current)
+
+        // p5의 non-passive 터치 리스너가 스크롤을 막는 것을 방지
+        const cnv = containerRef.current?.querySelector('canvas')
+        if (cnv) {
+          cnv.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true })
         }
-
-        p.draw = () => {
-          p.background(252, 246, 246)
-          drawSlides()
-
-          balls = balls.map((ball) => updateBall(ball)).filter((ball) => ball.y <= p.height + 100)
-          for (let i = 0; i < 3; i++) handleBallCollisions(balls)
-          balls.forEach(drawBall)
-
-          if (++spawnTimer > 120) {
-            spawnBall()
-            spawnTimer = 0
-          }
-        }
-
-        p.mousePressed = () => {
-          balls.push(createBall(p.mouseX + (Math.random() - 0.5) * 30, p.mouseY + (Math.random() - 0.5) * 30))
-        }
-
-        p.windowResized = () => {
-          p.resizeCanvas(p.windowWidth, p.windowHeight)
-          slides = createSlides(p.width, p.height)
-        }
-      }
-
-      p5Instance.current = new P5(sketch, containerRef.current)
-    }).catch((err) => {
-      console.error('[P5Canvas] p5 load failed:', err)
-    })
+      })
+      .catch((err) => {
+        console.error('[P5Canvas] p5 load failed:', err)
+      })
 
     return () => {
       p5Instance.current?.remove()
     }
   }, [])
 
-  return <div ref={containerRef} className={className} style={{ cursor: 'crosshair' }} />
+  return <div ref={containerRef} className={className} style={{ cursor: 'crosshair', touchAction: 'pan-y' }} />
 }

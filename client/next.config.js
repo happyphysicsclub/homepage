@@ -9,7 +9,19 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const nextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: ['192.168.45.101'],
   images: {},
+  // Turbopack 설정 (next dev --turbopack)
+  turbopack: {
+    rules: {
+      // shader support
+      '*.{glsl,vs,fs,vert,frag}': {
+        loaders: ['glslify-loader', 'raw-loader'],
+        as: '*.js',
+      },
+    },
+  },
+  // Webpack 설정 (next build --webpack)
   webpack(config, { isServer }) {
     // audio support
     config.module.rules.push({

@@ -104,7 +104,7 @@ export const metadata: Metadata = {
     other: {
       rel: 'mask-icon',
       url: '/icons/safari-pinned-tab.svg',
-      color: '#000000',
+      color: '#fff',
     },
   },
 }
@@ -113,6 +113,6 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   minimumScale: 1,
-  themeColor: '#111111',
+  themeColor: '#fff',
   viewportFit: 'cover',
 }

@@ -24,6 +24,9 @@
   --color-beige: #FEF4E8;
   --color-indigo: #3B5CAB;
 
+  /* font */
+  --font-sans: "itc-avant-garde-gothic-pro", var(--font-pretendard), sans-serif;
+
   --animate-onload: onload 2s ease-out forwards;
   --animate-gravity: gravity 0.5s ease-in-out forwards;
 
@@ -95,7 +98,7 @@
     width: 100%;
     background-color: (var(--color-background));
     color: (var(--color-black));
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-sans);
   }
 
   ::selection {

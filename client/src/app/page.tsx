@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <section className='w-full h-[50vh] md:h-[70vh] relative'>
-        <h1 className='z-10 p-2 md:p-2 text-3xl md:text-6xl text-black font-sans font-thin absolute md:top-2 md:left-4 animate-gravity'>
+        <h1 className='z-10 p-2 md:p-2 text-3xl md:text-6xl text-black font-light absolute md:top-2 md:left-4 animate-gravity'>
           <HoverText text='happyphysicsclub is a physics-loving graphic club.' />
         </h1>
         <P5Canvas className='w-full h-full' />

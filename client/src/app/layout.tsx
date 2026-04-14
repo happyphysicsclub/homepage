@@ -1,9 +1,17 @@
 import type { Metadata, Viewport } from 'next'
+import localFont from 'next/font/local'
 import { APP_INFO } from '@/config'
 import { Layout } from '@/components'
 import { GoogleAnalytics } from '@next/third-parties/google'
 
 import '@/styles/globals.css'
+
+const pretendard = localFont({
+  src: './fonts/PretendardVariable.woff2',
+  variable: '--font-pretendard',
+  display: 'swap',
+  weight: '45 920',
+})
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -20,7 +28,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='ko'>
+    <html lang='ko' className={pretendard.variable}>
+      <head>
+        <link rel='stylesheet' href='https://use.typekit.net/anz6qxo.css' />
+      </head>
       <body className='antialiased'>
         <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Layout>{children}</Layout>

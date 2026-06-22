@@ -13,7 +13,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
       <main className='w-full min-h-dvh h-fit relative'>
         {children}
-        <footer className='w-full h-12 self-end flex flex-row items-center justify-between px-6 py-4'>
+        <footer className='w-full h-12 self-end flex flex-row items-center justify-between px-4 md:px-6 py-4'>
           <span className='text-xs md:text-sm text-black'>
             © {new Date().getFullYear()} happyphysicsclub. All rights reserved.
           </span>

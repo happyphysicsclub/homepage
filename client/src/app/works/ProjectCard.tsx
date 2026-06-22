@@ -77,7 +77,9 @@ export function ProjectCard({ project }: { project: Project }) {
         <h2 className='text-sm font-medium leading-snug mb-2 line-clamp-2 group-hover:opacity-60 transition-opacity duration-200'>
           {title}
         </h2>
-        <p className='text-xs text-neutral-500 break-keep leading-relaxed mb-2 line-clamp-3'>{project.description}</p>
+        <p className='text-xs text-neutral-500 break-keep leading-relaxed mb-2 font-[sans-serif] line-clamp-3'>
+          {project.description}
+        </p>
         <div className='flex flex-wrap gap-1'>
           {categories.map((cat) => (
             <span

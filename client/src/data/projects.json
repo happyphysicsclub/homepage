@@ -2,7 +2,7 @@
   "projects": [
     {
       "id": "1",
-      "title": "H+LOW: 생성형 인공지능 기반 문화유산 정보 시각화·탐색 방안",
+      "title": "H+LOW: 생성형 인공지능 기반 문화유산 시각화 웹 서비스",
       "description": "한국전통문화대학교 ‘문화유산 디지털 표준 선도를 위한 지능형 헤리티지 공유 플랫폼 기술 개발’ 과제에서 정보 시각화 데모 서비스의 디자인 및 개발을 담당했습니다.",
       "thumbnail": "heritage.jpg",
       "url": "https://heritage-information-lab.vercel.app",
@@ -12,7 +12,7 @@
     },
     {
       "id": "2",
-      "title": "OCON STUDIOS",
+      "title": "오콘 스튜디오 3D 홈페이지",
       "description": "뽀로로를 비롯한 국내 대표 애니메이션 제작사, OCON STUDIOS를 소개하는 인터랙티브 3D 웹사이트를 디자인 및 개발하였습니다.",
       "thumbnail": "ocon.png",
       "url": "https://ocon-3d-homepage.vercel.app",
@@ -22,7 +22,7 @@
     },
     {
       "id": "3",
-      "title": "2025 Samsung Design Membership <New Formative>",
+      "title": "2025 삼성디자인멤버십 <New Formative>",
       "description": "2025 삼성디자인멤버십 전시 <New Formative>의 온라인 전시 웹사이트를 개발하였습니다.",
       "thumbnail": "sdm",
       "url": "https://www.newformative.com/",
@@ -32,7 +32,7 @@
     },
     {
       "id": "4",
-      "title": "MIRAEN: XR Science Museum",
+      "title": "미래엔 XR과학관",
       "description": "14개의 WebXR 콘텐츠(웹사이트)로 구성된 2022 개정 교육과정 초등학교 5-6학년 미래엔 과학 디지털 교과서에 포함된 웹사이트입니다.",
       "thumbnail": "miraen",
       "url": "https://pubvw-cms.mirae-n.com/web_document/1246464/2/6-1-2/index.html?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL3B1YnZ3LWNtcy5taXJhZS1uLmNvbS93ZWJfZG9jdW1lbnQvMTI0NjQ2NC8yLzYtMS0yL2luZGV4Lmh0bWwiLCJleHAiOjE3ODE4NDYyMTE3MDYsImlhdCI6MTc4MTg0MjYxMTcwNiwicGF0aCI6IndlYl9kb2N1bWVudCJ9.kucxqM4qEzeGAyGWpu0m93ESmn7eVyTNLexPJiOSA8A",

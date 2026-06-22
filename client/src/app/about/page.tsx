@@ -33,8 +33,8 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
-      <header className='border-b pt-8 border-black/10 pb-4 mb-10 md:mb-16'></header>
+    <section className='px-4 md:px-6 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
+      <header className='border-b pt-8 border-black/0 pb-4 mb-4 md:mb-6'></header>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-4xl'>
         <div>

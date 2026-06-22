@@ -41,7 +41,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
             }`}
             style={{ transitionDelay: open ? `${i * 60}ms` : '0ms' }}>
             <span
-              className={`text-2xl md:text-4xl lg:text-6xl underline-offset-8 decoration-2 md:decoration-4 font-light tracking-tight leading-none transition-colors duration-200 ${
+              className={`text-2xl md:text-4xl lg:text-6xl underline-offset-8 decoration-2 md:decoration-3 lg:decoration-4 font-light tracking-tight leading-none transition-colors duration-200 ${
                 pathname === item.href ? 'underline' : ' group-hover:text-gray'
               }`}>
               {item.label}
@@ -50,7 +50,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
         ))}
       </nav>
 
-      <div className='absolute bottom-0 left-0 right-0 pl-4 md:pl-8 pr-4 md:pr-6  py-5 md:py-6 flex items-end justify-between'>
+      <div className='absolute bottom-0 left-0 right-0 pl-4 md:pl-6 pr-4 md:pr-6  py-5 md:py-6 flex items-end justify-between'>
         <a
           href='https://www.instagram.com/happyphysics.club'
           target='_blank'

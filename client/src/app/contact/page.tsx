@@ -42,8 +42,8 @@ const LINKS = [
 
 export default function ContactPage() {
   return (
-    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
-      <header className='border-b pt-8 border-black/10 pb-4 mb-10 md:mb-16'></header>
+    <section className='px-4 md:px-6 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
+      <header className='border-b pt-8 border-black/0 pb-4 mb-4 md:mb-6'></header>
 
       <div className='max-w-lg'>
         <p className='text-3xl md:text-4xl font-light leading-snug tracking-tight mb-12'>

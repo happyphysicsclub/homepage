@@ -23,7 +23,7 @@ export function Nav({ menuOpen, onMenuToggle }: NavProps) {
     <div className='fixed top-0 left-0 w-full h-fit flex flex-row items-start justify-between pl-4 pr-4 md:pl-8 py-5 md:py-6 z-50 gap-12'>
       <div
         onClick={handleLogoClick}
-        className='text-3xl md:text-4xl lg:text-6xl text-black font-light leading-none animate-gravity mt-[-4px] md:mt-[-12px] '>
+        className='text-3xl md:text-4xl lg:text-6xl text-black font-light leading-none animate-gravity mt-[-4px] md:mt-[-12px] active:translate-y-1 cursor-pointer transition-all'>
         <HoverText
           text={pathname === '/' ? 'happyphysicsclub is a physics-loving graphic club.' : 'happyphysicsclub'}
         />

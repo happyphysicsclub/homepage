@@ -50,7 +50,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
         ))}
       </nav>
 
-      <div className='absolute bottom-8 left-6 md:left-12 right-6 md:right-12 flex items-end justify-between'>
+      <div className='absolute bottom-0 left-0 right-0 pl-4 md:pl-8 pr-4 md:pr-6  py-5 md:py-6 flex items-end justify-between'>
         <a
           href='https://www.instagram.com/happyphysics.club'
           target='_blank'

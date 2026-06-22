@@ -31,7 +31,7 @@ export function Nav({ menuOpen, onMenuToggle }: NavProps) {
       <button
         onClick={onMenuToggle}
         aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-        className='relative w-6 h-4 shrink-0 hover:opacity-50 transition-opacity duration-200'>
+        className='relative w-6 h-4 shrink-0 hover:opacity-50 transition-opacity duration-200 cursor-pointer'>
         <span
           className={`absolute left-0 w-full h-0.5 bg-black top-1/2 origin-center transition-all duration-300 ease-in-out ${
             menuOpen ? 'rotate-45' : '-translate-y-2'

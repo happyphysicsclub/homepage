@@ -46,13 +46,13 @@ export default function ContactPage() {
       <header className='border-b pt-8 border-black/0 pb-4 mb-4 md:mb-6'></header>
 
       <div className='max-w-lg'>
-        <p className='text-3xl md:text-4xl font-light leading-snug tracking-tight mb-12'>
+        <p className='text-2xl md:text-4xl font-light leading-snug tracking-tight mb-12'>
           For inquiries, please contact us via email or Instagram.
         </p>
 
         <div className='flex flex-col'>
           {LINKS.map(({ label, items }) => (
-            <div key={label} className='py-4'>
+            <div key={label} className='py-2 md:py-4'>
               {items.map(({ value, href }, i) => (
                 <a
                   key={value}
@@ -60,7 +60,7 @@ export default function ContactPage() {
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className={classNames(
-                    'group flex items-center py-4 hover:opacity-50 transition-opacity duration-200',
+                    'group flex items-center py-2 md:py-4 hover:opacity-50 transition-opacity duration-200',
                     'justify-between',
                   )}>
                   <span className='text-xs tracking-[0.2em] uppercase text-gray'>{i === 0 ? label : ''}</span>

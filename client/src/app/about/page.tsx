@@ -20,6 +20,15 @@ const MEMBERS: Member[] = [
 
 export const metadata = {
   title: 'About',
+  description:
+    'happyphysicsclub is a design studio specializing in web design and development, founded by SEJIN OH and YEWON JANG.',
+  alternates: { canonical: 'https://happyphysics.club/about' },
+  openGraph: {
+    title: 'About - happyphysicsclub',
+    description:
+      'happyphysicsclub is a design studio specializing in web design and development, founded by SEJIN OH and YEWON JANG.',
+    url: 'https://happyphysics.club/about',
+  },
 }
 
 export default function AboutPage() {

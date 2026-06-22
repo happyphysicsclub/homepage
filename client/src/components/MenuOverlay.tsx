@@ -55,10 +55,10 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
           href='https://www.instagram.com/happyphysics.club'
           target='_blank'
           rel='noopener noreferrer'
-          className='text-xs tracking-widest uppercase text-gray hover:text-black transition-colors duration-200'>
+          className='text-xs tracking-widest uppercase text-black hover:text-black transition-colors duration-200'>
           Instagram
         </a>
-        <span className='text-xs text-gray'>© {new Date().getFullYear()} happyphysicsclub</span>
+        <span className='text-xs md:text-sm text-black'>© {new Date().getFullYear()} happyphysicsclub</span>
       </div>
     </div>
   )

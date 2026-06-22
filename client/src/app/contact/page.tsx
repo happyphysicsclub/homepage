@@ -2,6 +2,13 @@ import classNames from 'classnames'
 
 export const metadata = {
   title: 'Contact',
+  description: 'Contact happyphysicsclub — reach us via email or Instagram for project inquiries.',
+  alternates: { canonical: 'https://happyphysics.club/contact' },
+  openGraph: {
+    title: 'Contact - happyphysicsclub',
+    description: 'Contact happyphysicsclub — reach us via email or Instagram for project inquiries.',
+    url: 'https://happyphysics.club/contact',
+  },
 }
 
 const LINKS = [

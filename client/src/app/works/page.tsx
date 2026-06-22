@@ -3,6 +3,13 @@ import { ProjectCard } from './ProjectCard'
 
 export const metadata = {
   title: 'Works',
+  description: 'Projects by happyphysicsclub — interactive websites, 3D experiences, and digital design.',
+  alternates: { canonical: 'https://happyphysics.club/works' },
+  openGraph: {
+    title: 'Works - happyphysicsclub',
+    description: 'Projects by happyphysicsclub — interactive websites, 3D experiences, and digital design.',
+    url: 'https://happyphysics.club/works',
+  },
 }
 
 export default function WorksPage() {

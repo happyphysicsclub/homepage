@@ -6,7 +6,7 @@ export const metadata = {
 }
 
 export default function WorksPage() {
-  const { projects } = data
+  const projects = [...data.projects].sort((a, b) => b.year - a.year || b.month - a.month)
 
   return (
     <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>

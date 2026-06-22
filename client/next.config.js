@@ -9,7 +9,7 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const nextConfig = {
   reactStrictMode: true,
-  allowedDevOrigins: ['192.168.45.101'],
+  // allowedDevOrigins: ['192.168.45.101'],
   images: {},
   // Turbopack 설정 (next dev --turbopack)
   turbopack: {

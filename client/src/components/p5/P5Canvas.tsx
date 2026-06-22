@@ -103,12 +103,12 @@ export function P5Canvas({ className }: { className?: string }) {
 
   useEffect(() => {
     if (!containerRef.current) return
+    let cancelled = false
 
     import('p5')
       .then((p5Module) => {
+        if (cancelled || !containerRef.current) return
         const P5 = p5Module.default
-
-        if (!containerRef.current) return
 
         const sketch = (p: p5) => {
           let balls: Ball[] = []
@@ -356,8 +356,15 @@ export function P5Canvas({ className }: { className?: string }) {
             balls.push(createBall(x + (Math.random() - 0.5) * 30, y + (Math.random() - 0.5) * 30))
           }
 
-          p.mousePressed = () => addBall(p.mouseX, p.mouseY)
-          ;(p as any).touchStarted = () => addBall((p as any).touchX, (p as any).touchY)
+          p.mousePressed = (e?: MouseEvent) => {
+            if (e && !(e.target instanceof HTMLCanvasElement)) return
+            addBall(p.mouseX, p.mouseY)
+          }
+          ;(p as any).touchStarted = (e?: TouchEvent) => {
+            if (e && !(e.target instanceof HTMLCanvasElement)) return false
+            addBall((p as any).touchX, (p as any).touchY)
+            return false
+          }
 
           p.windowResized = () => {
             const el = containerRef.current
@@ -380,7 +387,9 @@ export function P5Canvas({ className }: { className?: string }) {
       })
 
     return () => {
+      cancelled = true
       p5Instance.current?.remove()
+      p5Instance.current = null
     }
   }, [])
 

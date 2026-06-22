@@ -1,25 +1,25 @@
-// Layout.tsx
+'use client'
 
-/**
- * Layout
- * - Layout은 페이지의 전체적인 레이아웃을 담당하는 컴포넌트입니다.
- * - children으로 받은 컴포넌트를 렌더링합니다.
- * @param children : React.ReactNode
- * @returns {JSX.Element} JSX.Element
- */
-
-import classNames from 'classnames'
+import { useState } from 'react'
+import { Nav } from './Nav'
+import { MenuOverlay } from './MenuOverlay'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
     <>
-      <main className={classNames('w-full min-h-[calc(100vh-4rem)] h-fit relative')}>{children}</main>
-      <footer className='w-full h-16 flex flex-row items-center justify-between px-4 md:px-8'>
-        <span className='text-xs md:text-sm text-black text-left'>
-          © {new Date().getFullYear()} happyphysicsclub.
-          <br className='block md:hidden' /> All rights reserved.
-        </span>
-      </footer>
+      <Nav menuOpen={menuOpen} onMenuToggle={() => setMenuOpen((v) => !v)} />
+      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <main className='w-full min-h-dvh h-fit relative'>
+        {children}
+        <footer className='w-full h-12 self-end flex flex-row items-center justify-between px-6 py-4'>
+          <span className='text-sm text-black'>
+            © {new Date().getFullYear()} happyphysicsclub.
+            <br className='block md:hidden' /> All rights reserved.
+          </span>
+        </footer>
+      </main>
     </>
   )
 }

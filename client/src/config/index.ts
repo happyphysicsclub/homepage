@@ -1,7 +1,7 @@
 export const APP_INFO = {
   name: 'happyphysicsclub', // 웹사이트의 이름
   title: 'happyphysicsclub', // 웹사이트의 기본 제목
-  titleTemplate: '%s | happyphysicsclub', // 페이지별로 제목이 필요한 경우 사용 예: 'About | happyphysicsclub'
+  titleTemplate: '%s - happyphysicsclub', // 페이지별로 제목이 필요한 경우 사용 예: 'About - happyphysicsclub'
   description:
     'happyphysicsclub is a physics-loving graphic design club exploring the intersection of science and visual art.',
   keywords: ['happyphysicsclub', 'graphic design', 'physics', 'creative studio', 'visual art', 'design club'],

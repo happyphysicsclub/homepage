@@ -14,9 +14,8 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <main className='w-full min-h-dvh h-fit relative'>
         {children}
         <footer className='w-full h-12 self-end flex flex-row items-center justify-between px-6 py-4'>
-          <span className='text-sm text-black'>
-            © {new Date().getFullYear()} happyphysicsclub.
-            <br className='block md:hidden' /> All rights reserved.
+          <span className='text-xs md:text-sm text-black'>
+            © {new Date().getFullYear()} happyphysicsclub. All rights reserved.
           </span>
         </footer>
       </main>

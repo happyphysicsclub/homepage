@@ -35,7 +35,7 @@ const LINKS = [
 
 export default function ContactPage() {
   return (
-    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-4rem)]'>
+    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
       <header className='border-b pt-8 border-black/10 pb-4 mb-10 md:mb-16'></header>
 
       <div className='max-w-lg'>

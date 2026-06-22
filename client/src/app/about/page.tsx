@@ -24,18 +24,18 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-4rem)]'>
+    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
       <header className='border-b pt-8 border-black/10 pb-4 mb-10 md:mb-16'></header>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-4xl'>
         <div>
           {/* <p className='text-3xl md:text-4xl font-light leading-snug tracking-tight'>happyphysicsclub</p> */}
-          <Logo style={{ animation: 'spin 15s linear infinite' }} className='w-1/3 md:w-1/2 h-auto aspect-square' />
+          <Logo className='w-1/3 md:w-1/2 h-auto aspect-square animate-spinslow' />
         </div>
 
         <div className='flex flex-col gap-6 text-sm leading-relaxed text-black/70 md:pt-2'>
           <p>
-            Happyphysicsclub is a design studio specializing in web design and development. We create digital
+            happyphysicsclub is a design studio specializing in web design and development. We create digital
             experiences tailored to the character of each brand and project, designing interfaces with a strong sense of
             visual refinement and usability, and bringing them to life through interactive, fully functional web
             experiences.
@@ -48,7 +48,7 @@ export default function AboutPage() {
 
           <div className='pt-4 border-t border-black/10'>
             <p className='text-xs tracking-[0.2em] uppercase text-gray mb-6'>MEMBERS</p>
-            <div className='grid grid-cols-2 gap-6'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
               {MEMBERS.map((member) => (
                 <MemberCard key={member.name} member={member} />
               ))}

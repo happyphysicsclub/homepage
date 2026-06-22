@@ -29,6 +29,7 @@
 
   --animate-onload: onload 2s ease-out forwards;
   --animate-gravity: gravity 0.5s ease-in-out forwards;
+  --animate-spinslow: spinslow 15s linear infinite;
 
   @keyframes onload {
     0% {
@@ -47,6 +48,16 @@
 
     100% {
       transform: translateY(0);
+    }
+  }
+
+  @keyframes spinslow {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

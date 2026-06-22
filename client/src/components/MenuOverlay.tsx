@@ -30,7 +30,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
       className={`fixed inset-0 z-40 bg-white flex flex-col justify-center px-6 md:px-12 transition-all duration-300 ${
         open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
-      <nav className='flex flex-col gap-4 md:gap-2'>
+      <nav className='flex flex-col gap-3 md:gap-4'>
         {NAV_ITEMS.map((item, i) => (
           <Link
             key={item.href}
@@ -41,7 +41,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
             }`}
             style={{ transitionDelay: open ? `${i * 60}ms` : '0ms' }}>
             <span
-              className={`text-4xl md:text-6xl lg:text-8xl underline-offset-8 decoration-4 font-light tracking-tight leading-none transition-colors duration-200 ${
+              className={`text-2xl md:text-4xl lg:text-6xl underline-offset-8 decoration-2 md:decoration-4 font-light tracking-tight leading-none transition-colors duration-200 ${
                 pathname === item.href ? 'underline' : ' group-hover:text-gray'
               }`}>
               {item.label}
@@ -50,7 +50,7 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
         ))}
       </nav>
 
-      <div className='absolute bottom-8 left-6 md:left-16 right-6 md:right-16 flex items-end justify-between'>
+      <div className='absolute bottom-8 left-6 md:left-12 right-6 md:right-12 flex items-end justify-between'>
         <a
           href='https://www.instagram.com/happyphysics.club'
           target='_blank'

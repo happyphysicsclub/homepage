@@ -361,8 +361,9 @@ export function P5Canvas({ className }: { className?: string }) {
             addBall(p.mouseX, p.mouseY)
           }
           ;(p as any).touchStarted = (e?: TouchEvent) => {
-            if (e && !(e.target instanceof HTMLCanvasElement)) return false
-            addBall((p as any).touchX, (p as any).touchY)
+            if (e && !(e.target instanceof HTMLCanvasElement)) return
+            const touch = p.touches[0] as { x: number; y: number } | undefined
+            if (touch) addBall(touch.x, touch.y)
             return false
           }
 

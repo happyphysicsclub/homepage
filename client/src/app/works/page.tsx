@@ -9,7 +9,7 @@ export default function WorksPage() {
   const { projects } = data
 
   return (
-    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-4rem)]'>
+    <section className='px-4 md:px-8 py-10 md:py-14 h-fit min-h-[calc(100dvh-3rem)]'>
       <header className='border-b pt-8 border-black/10 pb-4 mb-10 md:mb-16'></header>
 
       <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14'>
